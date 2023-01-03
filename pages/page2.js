@@ -1,4 +1,5 @@
 import { callApi } from "../src/api";
+import Router from "next/router";
 
 Page2.getInitialProps = async ({ query }) => { // getInitialProps 함수 정의
     const text = query.text || 'none'; // 쿼리 파라미터로부터 text 변수 생성
@@ -9,6 +10,7 @@ Page2.getInitialProps = async ({ query }) => { // getInitialProps 함수 정의
 export default function Page2({ text, data }) { // 페이지 컴포넌트에서 getInitialProps 함수가 반환한 값을 사용
     return (
         <div>
+            <button onClick={() => Router.push('/page1')}>page1로 이동</button>
             <p>this is home page2</p>
             <p>{`text: ${text}`}</p>
             <p>{`data is ${data}`}</p>

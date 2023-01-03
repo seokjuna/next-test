@@ -1,8 +1,12 @@
 import Head from "next/head";
+import Link from "next/link";
 
 function Page1() {
     return (
         <div>
+            <Link href="/page2">
+                page2로 이동
+            </Link>
             <p>This is home page</p>
             {/* 프로젝트 루트의 static 폴더 밑에 정적 파일을 만들고 경로르 입력하면 정적 파일 서비스 사용 가능*/}
             <img src="/static/icon.png" /> 
