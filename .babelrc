@@ -1,0 +1,6 @@
+{
+    // next/babel 프리셋은 항상 포함시켜야 함
+    "presets": ["next/babel"],
+    // styled-components에서 제공하는 플러그인 설정
+    "plugins": ["babel-plugin-styled-components"] 
+}

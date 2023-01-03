@@ -1,7 +1,6 @@
-// Component 속성값은 현재 렌더링하려는 페이지의 컴포넌트이고
-
 import Link from "next/link";
 
+// Component 속성값은 현재 렌더링하려는 페이지의 컴포넌트이고
 // pageProps 속성값은 해당 페이지의 getInitialProps 함수가 반환한 값
 export default function MyApp({ Component, pageProps }) {
     return (
