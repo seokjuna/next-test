@@ -30,6 +30,9 @@ const router_namespaceObject = require("next/router");
 
 
 Page2.getInitialProps = async ({ query  })=>{
+    // getInitialProps 함수에서 동적 임포트 사용하기
+    const { sayHello  } = await __webpack_require__.e(/* import() */ 916).then(__webpack_require__.bind(__webpack_require__, 9916));
+    console.log(sayHello());
     const text = query.text || "none"; // 쿼리 파라미터로부터 text 변수 생성
     const data = await callApi(); // 데이터를 가져오기 위해 API 호출
     return {
