@@ -41,6 +41,24 @@ app.prepare().then(() => { // 넥스트의 준비 과정이 끝나면 입력된 
     });
 });
 
+const fs = require('fs');
+// next.config.js 파일에서 설정한 exportPathMap 옵션의 내용과 같은 내용
+const prerenderList = [
+    { name: 'page1', path: '/page1' },
+    { name: 'page2-hello', path: '/page2?text=hello' },
+    { name: 'page2-world', path: '/page2?text=world' },
+];
+
+// out 폴더에 있는 미리 렌더링된 HTML 파일을 읽어서 prerenderCache에 저장
+const prerenderCache = {};
+if (!dev) {
+    for (const info of prerenderList) {
+        const { name, path } = info;
+        const html = fs.readFileSync(`./out/${name}.html`, 'utf-8');
+        prerenderCache[path] = html;
+    }
+}
+
 async function renderAndCache(req, res) { // renderAndCache 함수에서 캐싱 기능을 구현
     const parseUrl = url.parse(req.url, true);
     const cacheKey = parseUrl.path; // 쿼리 파라미터가 포함된 경로를 키로 사용
@@ -49,6 +67,14 @@ async function renderAndCache(req, res) { // renderAndCache 함수에서 캐싱 
         res.send(ssrCache.get(cacheKey));
         return;
     }
+
+    // renderAndCache 함수에서 prerenderCache 변수를 이용
+    // 미리 렌더링한 페이지라면 캐싱된 HTML을 사용
+    if (prerenderCache.hasOwnProperty(cacheKey)) {
+        console.log('미리 렌더링한 HTML 사용');
+        res.send(prerenderCache[cacheKey]);
+        return;
+    }    
     try {
         const { query, pathname } = parseUrl;
         // 캐시가 없으면 넥스트의 renderToHTML 메서드를 호출하고, await 키워드를 사용해서 처리가 끝날 때까지 기다림
@@ -62,4 +88,3 @@ async function renderAndCache(req, res) { // renderAndCache 함수에서 캐싱 
         app.renderError(err, req, res, pathname, query);
     }
 }
-
