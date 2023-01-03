@@ -8,11 +8,18 @@ Page2.getInitialProps = async ({ query }) => { // getInitialProps 함수 정의
 };
 
 export default function Page2({ text, data }) { // 페이지 컴포넌트에서 getInitialProps 함수가 반환한 값을 사용
+    // 동적 임포트로 sayHello 모듈을 가져오는 코드
+    function onClick() {
+        import('../src/sayHello').then(({ sayHello }) => 
+        console.log(sayHello())); 
+    }
     return (
         <div>
             <p>this is home page2</p>
             <p>{`text: ${text}`}</p>
             <p>{`data is ${data}`}</p>
+            {/* onClick 함수를 버튼에 연결 */}
+            <button onClick={onClick}>sayHello</button>
         </div>
     );
 }
